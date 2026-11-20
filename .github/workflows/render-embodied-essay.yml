@@ -1,0 +1,52 @@
+name: Render Embodied Audio Essay (Piper VITS + Guardrails)
+
+on:
+  workflow_dispatch:
+    inputs:
+      voice_model:
+        description: "Piper VITS voice model (e.g. en_US-lessac-medium or en_GB-alan-medium)"
+        required: true
+        default: "en_US-lessac-medium"
+      length_scale:
+        description: "Speaking cadence (1.12 = unhurried Roundhouse pacing)"
+        required: true
+        default: "1.12"
+
+permissions:
+  contents: read
+
+jobs:
+  render-embodied-essay:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run phonetic & anti-sycophancy guardrail unit tests
+        run: |
+          PYTHONPATH=nondual-embodied-studio python3 -m unittest nondual-embodied-studio/test_guardrails.py
+
+      - name: Install piper-tts neural runtime
+        run: |
+          pip install --upgrade pip
+          pip install piper-tts
+
+      - name: Synthesize guarded two-speaker essay with <= 680 Hz stillness bed
+        run: |
+          cd nondual-embodied-studio/models
+          python3 ../render_embodied_essay.py \
+            ../scripts/zenodo-24393275-dialogue.json \
+            "${{ github.event.inputs.voice_model }}" \
+            ../output/zenodo-24393275-embodied.wav
+
+      - name: Upload rendered WAV artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: zenodo-24393275-embodied-audio
+          path: nondual-embodied-studio/output/zenodo-24393275-embodied.wav
+          retention-days: 14
