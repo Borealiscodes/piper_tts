@@ -39,15 +39,17 @@ def render_dialogue(script_path: Path, model_path: Path, out_wav: Path, length_s
 
     for idx, turn in enumerate(doc["turns"]):
         turn_wav = tmp_dir / f"turn_{idx:02d}.wav"
-        payload = json.dumps({
-            "text": normalize_for_speech(turn["text"]),
-            "speaker_id": int(turn.get("speaker_id", 0)),
-            "output_file": str(turn_wav),
-        }) + "\n"
+        spoken_line = normalize_for_speech(turn["text"]).strip() + "\n"
 
         subprocess.run(
-            [sys.executable, "-m", "piper", "--model", str(model_path), "--download-dir", ".", "--length_scale", str(length_scale), "--output_file", str(turn_wav), "--json-input"],
-            input=payload.encode("utf-8"),
+            [
+                sys.executable, "-m", "piper",
+                "--model", str(model_path),
+                "--data-dir", ".",
+                "--length-scale", str(length_scale),
+                "--output_file", str(turn_wav),
+            ],
+            input=spoken_line.encode("utf-8"),
             check=True,
         )
 
