@@ -46,7 +46,7 @@ def render_dialogue(script_path: Path, model_path: Path, out_wav: Path, length_s
         }) + "\n"
 
         subprocess.run(
-            ["piper", "--model", str(model_path), "--length_scale", str(length_scale), "--json-input"],
+            [sys.executable, "-m", "piper", "--model", str(model_path), "--download-dir", ".", "--length_scale", str(length_scale), "--json-input"],
             input=payload.encode("utf-8"),
             check=True,
         )

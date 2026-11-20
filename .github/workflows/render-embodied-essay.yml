@@ -38,6 +38,7 @@ jobs:
 
       - name: Synthesize guarded two-speaker essay with <= 680 Hz stillness bed
         run: |
+          mkdir -p nondual-embodied-studio/models nondual-embodied-studio/output
           cd nondual-embodied-studio/models
           python3 ../render_embodied_essay.py \
             ../scripts/zenodo-24393275-dialogue.json \
