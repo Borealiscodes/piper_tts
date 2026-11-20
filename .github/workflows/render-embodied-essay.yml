@@ -3,14 +3,18 @@ name: Render Embodied Audio Essay (Piper VITS + Guardrails)
 on:
   workflow_dispatch:
     inputs:
-      voice_model:
-        description: "Piper VITS voice model (e.g. en_US-lessac-medium or en_GB-alan-medium)"
+      voice_a:
+        description: "Speaker A voice (Attenborough + Nye register)"
         required: true
-        default: "en_US-lessac-medium"
+        default: "en_GB-alan-medium"
+      voice_b:
+        description: "Speaker B voice (Social Model + Scholl + Sagan register)"
+        required: true
+        default: "en_GB-alba-medium"
       length_scale:
-        description: "Speaking cadence (1.12 = unhurried Roundhouse pacing)"
+        description: "Unhurried Roundhouse cadence (1.30 = calm reflective pace)"
         required: true
-        default: "1.12"
+        default: "1.30"
 
 permissions:
   contents: read
@@ -36,16 +40,20 @@ jobs:
           pip install --upgrade pip
           pip install piper-tts
 
-      - name: Synthesize guarded two-speaker essay with <= 680 Hz stillness bed
+      - name: Synthesize dual-voice essay with Roundhouse pauses & <= 680 Hz stillness bed
         run: |
           mkdir -p nondual-embodied-studio/models nondual-embodied-studio/output
           cd nondual-embodied-studio/models
-          VOICE="${{ github.event.inputs.voice_model }}"
-          python3 -m piper.download_voices --download-dir . "$VOICE"
+          VA="${{ github.event.inputs.voice_a }}"
+          VB="${{ github.event.inputs.voice_b }}"
+          SCALE="${{ github.event.inputs.length_scale }}"
+          python3 -m piper.download_voices --download-dir . "$VA" "$VB"
           python3 ../render_embodied_essay.py \
             ../scripts/zenodo-24393275-dialogue.json \
-            "${VOICE}.onnx" \
-            ../output/zenodo-24393275-embodied.wav
+            "${VA}.onnx" \
+            "${VB}.onnx" \
+            ../output/zenodo-24393275-embodied.wav \
+            "$SCALE"
 
       - name: Upload rendered WAV artifact
         uses: actions/upload-artifact@v4
