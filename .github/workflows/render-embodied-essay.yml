@@ -40,9 +40,11 @@ jobs:
         run: |
           mkdir -p nondual-embodied-studio/models nondual-embodied-studio/output
           cd nondual-embodied-studio/models
+          VOICE="${{ github.event.inputs.voice_model }}"
+          python3 -m piper.download_voices --download-dir . "$VOICE"
           python3 ../render_embodied_essay.py \
             ../scripts/zenodo-24393275-dialogue.json \
-            "${{ github.event.inputs.voice_model }}" \
+            "${VOICE}.onnx" \
             ../output/zenodo-24393275-embodied.wav
 
       - name: Upload rendered WAV artifact
