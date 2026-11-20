@@ -1,3 +1,4 @@
+import itertools
 import json
 import math
 import random
@@ -56,7 +57,7 @@ def render_dialogue(script_path: Path, model_path: Path, out_wav: Path, length_s
             pcm_samples.extend(struct.unpack(f"<{len(frames)//2}h", frames))
 
         pause_frames = int(sample_rate * (int(turn.get("pause_ms", 900)) / 1000.0))
-        pcm_samples.extend([0] * pause_frames)
+        pcm_samples.extend(itertools.repeat(0, pause_frames))
         turn_wav.unlink(missing_ok=True)
 
     tmp_dir.rmdir()
@@ -75,5 +76,6 @@ if __name__ == "__main__":
     if len(sys.argv) < 4:
         print("Usage: python3 render_embodied_essay.py <script.json> <voice.onnx> <output.wav>")
         sys.exit(1)
-    result = render_dialogue(Path(sys.argv[1]), Path(sys.argv[2]), Path(sys.argv[3]))
+    args = list(sys.argv)
+    result = render_dialogue(Path(args.pop(1)), Path(args.pop(1)), Path(args.pop(1)))
     print(f"Rendered embodied audio essay: {result}")
