@@ -2,5 +2,35 @@
   "doi": "10.5281/zenodo.24393275",
   "title": "Beyond Bolted-On Screen Readers: Narrative Phenomenology, the RNIB Roundhouse Sensory Dark, and Perceptual-Cognitive Unity (Rasa-Darśan)",
   "author": "Borealis Serenity Hedling",
-  "acknowledgement": "Special thanks to Flyxion (@standardgalactic) for pioneering the research-projection direction that surfaced spoken-word AI failure modes."
+  "acknowledgement": "Special thanks to Flyxion (@standardgalactic) for pioneering the research-projection direction that surfaced spoken-word AI failure modes.",
+  "limitations": [
+    "Neural VITS speech models still approximate—rather than replace—a live human narrator.",
+    "Replacing 2D spatial navigation with discrete gestures trades open-world exploration freedom for narrative coherence."
+  ],
+  "turns": [
+    {
+      "speaker": "Speaker A",
+      "speaker_id": 0,
+      "pause_ms": 950,
+      "text": "Imagine stepping into a darkened room with no visual screen at all. Instead of a robot reading pixel coordinates in your ear, you hear a mountain river flowing gently through a low-pass filter."
+    },
+    {
+      "speaker": "Speaker B",
+      "speaker_id": 1,
+      "pause_ms": 1100,
+      "text": "Under the Social Model of Disability, bolting an aria-live distance counter onto a visual grid grants navigational permission, yet leaves blind listeners doing mental trigonometry instead of inhabiting rasa-darśan."
+    },
+    {
+      "speaker": "Speaker A",
+      "speaker_id": 0,
+      "pause_ms": 1000,
+      "text": "Inspired by RNIB and Roundhouse sensory-darkness storytelling and research-projection experiments by Flyxion, every gesture—like chiming a Tōrō lantern or Bonshō bell—produces the sound, voice, and reflection together."
+    },
+    {
+      "speaker": "Speaker B",
+      "speaker_id": 1,
+      "pause_ms": 1200,
+      "text": "Even with warmer neural voices, we must state clear limits: VITS models only approximate human breath, and discrete gestures narrow spatial freedom. Naming those boundaries keeps the work honest."
+    }
+  ]
 }
