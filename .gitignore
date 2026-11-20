@@ -20,3 +20,9 @@ htmlcov
 
 .venv/
 lightning_logs/
+
+# Non-Dual Embodied Studio large voice checkpoints & rendered audio
+nondual-embodied-studio/models/*.onnx
+nondual-embodied-studio/models/*.onnx.json
+nondual-embodied-studio/output/*.wav
+nondual-embodied-studio/output/*.ogg
